@@ -1,5 +1,7 @@
 # PHP Simple Annotation
 
+[![Latest Stable Version](https://poser.pugx.org/jmacedo/php-simple-annotation/v)](//packagist.org/packages/jmacedo/php-simple-annotation) [![Total Downloads](https://poser.pugx.org/jmacedo/php-simple-annotation/downloads)](//packagist.org/packages/jmacedo/php-simple-annotation) [![Latest Unstable Version](https://poser.pugx.org/jmacedo/php-simple-annotation/v/unstable)](//packagist.org/packages/jmacedo/php-simple-annotation) [![License](https://poser.pugx.org/jmacedo/php-simple-annotation/license)](//packagist.org/packages/jmacedo/php-simple-annotation) [![Build Status](https://travis-ci.com/jmacedo/php-simple-annotation.svg?branch=master)](https://travis-ci.com/jmacedo/php-simple-annotation)
+
 Yet another PHP annotation implementation. A simple and direct implementation without any complexity.
 
 ## Requirements
