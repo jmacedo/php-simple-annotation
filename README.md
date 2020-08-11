@@ -163,10 +163,10 @@ array (size=2)
           'emptyAnnotation' => boolean true
 ```
 
-For a specific method, just pass the method name:
+For a specific method:
 
 ```php
-$sayHelloAnnotations = $annotation->getMethodsAnnotations('sayHello');
+$sayHelloAnnotations = $annotation->getMethodAnnotations('sayHello');
 
 var_dump($sayHelloAnnotations);
 ```
@@ -206,10 +206,10 @@ array (size=3)
           'var' => string 'int' (length=3)
 ```
 
-For a specific property, just pass the property name:
+For a specific property:
 
 ```php
-$nameAnnotations = $annotation->getPropertiesAnnotations('name');
+$nameAnnotations = $annotation->getPropertyAnnotations('name');
 
 var_dump($nameAnnotations);
 ```
