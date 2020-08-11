@@ -70,24 +70,24 @@ class AnnotationTraitTest extends TestCase
 
     // endregion
 
-    // region SPECIFIC PROPERTIES ANNOTATIONS
+    // region SPECIFIC PROPERTY ANNOTATIONS
 
-    public function testGetPropertiesAnnotationsWithScpecificPropertyInstanceOfParsedAnnotation()
+    public function testGetPropertyAnnotationsInstanceOfParsedAnnotation()
     {
-        $propertyOneAnnotation = $this->annotatedClass->getPropertiesAnnotations('propertyOne');
+        $propertyOneAnnotation = $this->annotatedClass->getPropertyAnnotations('propertyOne');
         $this->assertInstanceOf(ParsedAnnotation::class, $propertyOneAnnotation);
     }
 
-    public function testGetPropertiesAnnotationsWithUnexistentPropertyException()
+    public function testGetPropertyAnnotationsWithUnexistentPropertyException()
     {
         $this->expectException(\ReflectionException::class);
         $this->expectExceptionMessageMatches('/Property\s+[a-z0-9]+\s+does not exist/i');
-        $unexistentPropertyAnnotation = $this->annotatedClass->getPropertiesAnnotations('unexistentProperty');
+        $unexistentPropertyAnnotation = $this->annotatedClass->getPropertyAnnotations('unexistentProperty');
     }
 
-    public function testGetPropertiesAnnotationsWithSpecificPropertyWithSuccess()
+    public function testGetPropertyAnnotationsWithSuccess()
     {
-        $propertyOneAnnotation = $this->annotatedClass->getPropertiesAnnotations('propertyOne');
+        $propertyOneAnnotation = $this->annotatedClass->getPropertyAnnotations('propertyOne');
         $this->assertEquals('string', $propertyOneAnnotation->var);
     }
 
@@ -141,24 +141,24 @@ class AnnotationTraitTest extends TestCase
 
     // endregion
 
-    // region SPECIFIC METHODS ANNOTATIONS
+    // region SPECIFIC METHOD ANNOTATIONS
 
-    public function testGetMethodsAnnotationsWithScpecificMethodInstanceOfParsedAnnotation()
+    public function testGetMethodAnnotationsInstanceOfParsedAnnotation()
     {
-        $methodOneAnnotation = $this->annotatedClass->getMethodsAnnotations('methodOne');
+        $methodOneAnnotation = $this->annotatedClass->getMethodAnnotations('methodOne');
         $this->assertInstanceOf(ParsedAnnotation::class, $methodOneAnnotation);
     }
 
-    public function testGetMethodsAnnotationsWithUnexistentMethodException()
+    public function testGetMethodAnnotationsWithUnexistentMethodException()
     {
         $this->expectException(\ReflectionException::class);
         $this->expectExceptionMessageMatches('/Method\s+[a-z0-9]+\s+does not exist/i');
-        $unexistentMethodAnnotation = $this->annotatedClass->getMethodsAnnotations('unexistentMethod');
+        $unexistentMethodAnnotation = $this->annotatedClass->getMethodAnnotations('unexistentMethod');
     }
 
     public function testGetMethodsAnnotationsWithSpecificMethodWithSuccess()
     {
-        $methodOneAnnotation = $this->annotatedClass->getMethodsAnnotations('methodOne');
+        $methodOneAnnotation = $this->annotatedClass->getMethodAnnotations('methodOne');
         $this->assertCount(3, $methodOneAnnotation->param);
     }
 
@@ -239,23 +239,93 @@ class AnnotationTraitTest extends TestCase
 
     // region CACHED ANNOTATIONS
 
-    public function testGetAnnotationsWithCache()
+    public function testGetClassAnnotationsWithCache()
     {
         $path = $this->cacheBasePath . 'annotated_class.cache';
         $cache = new FileCache($path);
         $this->annotatedClass->setCacheHandler($cache);
 
         $classAnnotations = $this->annotatedClass->getClassAnnotations();
-        $methodsAnnotations = $this->annotatedClass->getMethodsAnnotations();
-        $propertiesAnnotations = $this->annotatedClass->getPropertiesAnnotations();
 
         $cache->persist();
 
         $classAnnotations = $this->annotatedClass->getClassAnnotations();
-        $methodsAnnotations = $this->annotatedClass->getMethodsAnnotations();
+
+        $this->assertFileExists($path);
+        $this->assertJson(file_get_contents($path));
+
+        // Have to unset the cache to destruct the object to persist data and unlink in tearDown().
+        $this->annotatedClass->setCacheHandler(null);
+    }
+
+    public function testGetPropertiesAnnotationsWithCache()
+    {
+        $path = $this->cacheBasePath . 'annotated_class.cache';
+        $cache = new FileCache($path);
+        $this->annotatedClass->setCacheHandler($cache);
+
         $propertiesAnnotations = $this->annotatedClass->getPropertiesAnnotations();
-        $methodOneAnnotations = $this->annotatedClass->getMethodsAnnotations('methodOne');
-        $propertyOneAnnotations = $this->annotatedClass->getPropertiesAnnotations('propertyOne');
+
+        $cache->persist();
+
+        $propertiesAnnotations = $this->annotatedClass->getPropertiesAnnotations();
+
+        $this->assertFileExists($path);
+        $this->assertJson(file_get_contents($path));
+
+        // Have to unset the cache to destruct the object to persist data and unlink in tearDown().
+        $this->annotatedClass->setCacheHandler(null);
+    }
+
+    public function testGetSpecificPropertyAnnotationsWithCache()
+    {
+        $path = $this->cacheBasePath . 'annotated_class.cache';
+        $cache = new FileCache($path);
+        $this->annotatedClass->setCacheHandler($cache);
+
+        $propertiesAnnotations = $this->annotatedClass->getPropertyAnnotations('propertyOne');
+
+        $cache->persist();
+
+        $propertyOneAnnotations = $this->annotatedClass->getPropertYAnnotations('propertyOne');
+
+        $this->assertFileExists($path);
+        $this->assertJson(file_get_contents($path));
+
+        // Have to unset the cache to destruct the object to persist data and unlink in tearDown().
+        $this->annotatedClass->setCacheHandler(null);
+    }
+
+    public function testGetMethodsAnnotationsWithCache()
+    {
+        $path = $this->cacheBasePath . 'annotated_class.cache';
+        $cache = new FileCache($path);
+        $this->annotatedClass->setCacheHandler($cache);
+
+        $methodsAnnotations = $this->annotatedClass->getMethodsAnnotations();
+
+        $cache->persist();
+
+        $methodsAnnotations = $this->annotatedClass->getMethodsAnnotations();
+
+        $this->assertFileExists($path);
+        $this->assertJson(file_get_contents($path));
+
+        // Have to unset the cache to destruct the object to persist data and unlink in tearDown().
+        $this->annotatedClass->setCacheHandler(null);
+    }
+
+    public function testGetSpecificMethodAnnotationsWithCache()
+    {
+        $path = $this->cacheBasePath . 'annotated_class.cache';
+        $cache = new FileCache($path);
+        $this->annotatedClass->setCacheHandler($cache);
+
+        $methodOneAnnotations = $this->annotatedClass->getMethodAnnotations('methodOne');
+
+        $cache->persist();
+
+        $methodOneAnnotations = $this->annotatedClass->getMethodAnnotations('methodOne');
 
         $this->assertFileExists($path);
         $this->assertJson(file_get_contents($path));
