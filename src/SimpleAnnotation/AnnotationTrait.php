@@ -3,6 +3,7 @@
 namespace SimpleAnnotation;
 
 use ReflectionClass;
+use ReflectionException;
 use SimpleAnnotation\Concerns\CacheInterface;
 use SimpleAnnotation\Concerns\ParsedAnnotation;
 use SimpleAnnotation\Concerns\Parser;
@@ -56,79 +57,95 @@ trait AnnotationTrait
     }
 
     /**
-     * Returns an array with the annotations of all properties of the class or returns the annotations of the property
-     * given by the $key parameter.
+     * Returns an array with the annotations of all properties of the class.
      *
-     * @param string|null $key
-     * @return array|ParsedAnnotation
-     * @throws \ReflectionException
+     * @return ParsedAnnotation[]
      */
-    public final function getPropertiesAnnotations($key = null)
+    public final function getPropertiesAnnotations() : array
     {
-        if ($key === null) {
-            if ($this->cache !== null && $this->cache->has('properties')) {
-                return $this->cache->get('properties');
-            }
-
-            foreach ($this->reflectionClass->getProperties() as $property) {
-                $this->propertiesAnnotations[$property->name] = $this->annotationParser->parse($property->getDocComment());
-            }
-        } else {
-            if ($this->cache !== null && $this->cache->has('properties') && isset(((array)$this->cache->get('properties'))[$key])) {
-                return ((array)$this->cache->get('properties'))[$key];
-            }
-
-            $this->propertiesAnnotations[$key] = $this->annotationParser->parse($this->reflectionClass->getProperty($key)->getDocComment());
+        if ($this->cache !== null && $this->cache->has('properties')) {
+            return $this->cache->get('properties');
         }
 
-        if ($this->cache !== null) {
-            $this->cache->set('properties', $this->propertiesAnnotations);
+        foreach ($this->reflectionClass->getProperties() as $property) {
+            $this->propertiesAnnotations[$property->name] = $this->annotationParser->parse($property->getDocComment());
         }
 
-        return $key === null
-            ? $this->propertiesAnnotations
-            : $this->propertiesAnnotations[$key];
+        $this->cache !== null && $this->cache->set('properties', $this->propertiesAnnotations);
+
+        return $this->propertiesAnnotations;
     }
 
     /**
-     * Returns an array with the annotations of all methods of the class or returns the annotations of the method given
-     * by the $key parameter.
+     * Returns the annotations of the property given by the $key parameter.
      *
-     * @param string|null $key
-     * @return array|ParsedAnnotation
-     * @throws \ReflectionException
+     * @param string $key
+     * @return ParsedAnnotation
+     * @throws ReflectionException
      */
-    public final function getMethodsAnnotations($key = null)
+    public final function getPropertyAnnotations(string $key)
     {
-        if ($key === null) {
-            if ($this->cache !== null && $this->cache->has('methods')) {
-                return $this->cache->get('methods');
-            }
-
-            foreach ($this->reflectionClass->getMethods() as $method) {
-                $this->methodsAnnotations[$method->name] = $this->annotationParser->parse($method->getDocComment());
-            }
-        } else {
-            if ($this->cache !== null && $this->cache->has('methods') && isset(((array)$this->cache->get('methods'))[$key])) {
-                return ((array)$this->cache->get('methods'))[$key];
-            }
-
-            $this->methodsAnnotations[$key] = $this->annotationParser->parse($this->reflectionClass->getMethod($key)->getDocComment());
+        if ($this->cache !== null && $this->cache->has('properties')) {
+            return ((array)$this->cache->get('properties'))[$key];
         }
 
         if ($this->cache !== null) {
-            $this->cache->set('methods', $this->methodsAnnotations);
+            $this->getPropertiesAnnotations();
+            $this->cache->set('properties', $this->propertiesAnnotations);
+        } else {
+            $this->propertiesAnnotations[$key] = $this->annotationParser->parse($this->reflectionClass->getProperty($key)->getDocComment());
         }
 
-        return $key === null
-            ? $this->methodsAnnotations
-            : $this->methodsAnnotations[$key];
+        return $this->propertiesAnnotations[$key];
+    }
+
+    /**
+     * Returns an array with the annotations of all methods of the class.
+     *
+     * @return ParsedAnnotation[]
+     */
+    public final function getMethodsAnnotations() : array
+    {
+        if ($this->cache !== null && $this->cache->has('methods')) {
+            return $this->cache->get('methods');
+        }
+
+        foreach ($this->reflectionClass->getMethods() as $method) {
+            $this->methodsAnnotations[$method->name] = $this->annotationParser->parse($method->getDocComment());
+        }
+
+        $this->cache !== null && $this->cache->set('methods', $this->methodsAnnotations);
+
+        return $this->methodsAnnotations;
+    }
+
+    /**
+     * Returns the annotations of the method given by the $key parameter.
+     *
+     * @param string $key
+     * @return ParsedAnnotation
+     * @throws ReflectionException
+     */
+    public final function getMethodAnnotations(string $key)
+    {
+        if ($this->cache !== null && $this->cache->has('methods')) {
+            return ((array)$this->cache->get('methods'))[$key];
+        }
+
+        if ($this->cache !== null) {
+            $this->getMethodsAnnotations();
+            $this->cache->set('methods', $this->methodsAnnotations);
+        } else {
+            $this->methodsAnnotations[$key] = $this->annotationParser->parse($this->reflectionClass->getMethod($key)->getDocComment());
+        }
+
+        return $this->methodsAnnotations[$key];
     }
 
     /**
      * Return the annotations of the given class.
      *
-     * @return array|ParsedAnnotation
+     * @return ParsedAnnotation
      */
     public final function getClassAnnotations()
     {
