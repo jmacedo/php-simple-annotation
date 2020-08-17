@@ -74,7 +74,7 @@ final class AnnotationParser implements Parser
      * @param string $value
      * @return bool|string|double|array|object|null
      */
-    private function parseAnnotationValue(string $value = '')
+    private function parseAnnotationValue(string $value)
     {
         // The annotation just exists (true value)
         if (empty($value)) {
