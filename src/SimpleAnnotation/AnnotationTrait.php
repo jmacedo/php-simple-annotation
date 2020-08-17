@@ -68,8 +68,7 @@ trait AnnotationTrait
         }
 
         foreach ($this->reflectionClass->getProperties() as $property) {
-            $docBlock = $property->getDocComment() ? $property->getDocComment() : '';
-            $this->propertiesAnnotations[$property->name] = $this->annotationParser->parse($docBlock);
+            $this->propertiesAnnotations[$property->name] = $this->annotationParser->parse((string)$property->getDocComment());
         }
 
         $this->cache !== null && $this->cache->set('properties', $this->propertiesAnnotations);
@@ -94,10 +93,7 @@ trait AnnotationTrait
             $this->getPropertiesAnnotations();
             $this->cache->set('properties', $this->propertiesAnnotations);
         } else {
-            $docBlock = $this->reflectionClass->getProperty($key)->getDocComment()
-                ? $this->reflectionClass->getProperty($key)->getDocComment()
-                : '';
-            $this->propertiesAnnotations[$key] = $this->annotationParser->parse($docBlock);
+            $this->propertiesAnnotations[$key] = $this->annotationParser->parse((string)$this->reflectionClass->getProperty($key)->getDocComment());
         }
 
         return $this->propertiesAnnotations[$key];
@@ -115,8 +111,7 @@ trait AnnotationTrait
         }
 
         foreach ($this->reflectionClass->getMethods() as $method) {
-            $docBlock = $method->getDocComment() ? $method->getDocComment() : '';
-            $this->methodsAnnotations[$method->name] = $this->annotationParser->parse($docBlock);
+            $this->methodsAnnotations[$method->name] = $this->annotationParser->parse((string)$method->getDocComment());
         }
 
         $this->cache !== null && $this->cache->set('methods', $this->methodsAnnotations);
@@ -141,10 +136,7 @@ trait AnnotationTrait
             $this->getMethodsAnnotations();
             $this->cache->set('methods', $this->methodsAnnotations);
         } else {
-            $docBlock = $this->reflectionClass->getMethod($key)->getDocComment()
-                ? $this->reflectionClass->getMethod($key)->getDocComment()
-                : '';
-            $this->methodsAnnotations[$key] = $this->annotationParser->parse($docBlock);
+            $this->methodsAnnotations[$key] = $this->annotationParser->parse((string)$this->reflectionClass->getMethod($key)->getDocComment());
         }
 
         return $this->methodsAnnotations[$key];
@@ -161,8 +153,7 @@ trait AnnotationTrait
             return $this->cache->get('class');
         }
 
-        $docBlock = $this->reflectionClass->getDocComment() ? $this->reflectionClass->getDocComment() : '';
-        $classAnnotation = $this->annotationParser->parse($docBlock);
+        $classAnnotation = $this->annotationParser->parse((string)$this->reflectionClass->getDocComment());
 
         if ($this->cache !== null) {
             $this->cache->set('class', $classAnnotation);

@@ -111,7 +111,7 @@ final class AnnotationParser implements Parser
         $value = explode(',', Sanitizer::removeFirstAndLastCharacters($value));
 
         // Sanitize the array values
-        $value = array_map(function ($v) {
+        $value = array_map(function($v) {
             $v = trim($v);
 
             if ($v[0] === '"' || $v[0] === "'") {
