@@ -1,14 +1,14 @@
 build:
+  environment:
+    php:
+      version: '7.4'
   nodes:
-    my-tests:
-      environment:
-        php:
-          version: 7.4
+    coverage:
       tests:
         override:
-          - command: ./vendor/bin/phpunit --coverage-clover tests/coverage/coverage.clover
+          - command: ./vendor/bin/phpunit --coverage-clover tests/coverage/coverage-clover.xml
             coverage:
-              file: tests/coverage/coverage.clover
-              format: php-clover
+              file: tests/coverage/coverage-clover.xml
+              format: clover
 filter:
   excluded_paths: [vendor/*, tests/*]
