@@ -35,7 +35,7 @@ final class AnnotationParsed implements ParsedAnnotation, \JsonSerializable
      */
     public function __set(string $name, $value)
     {
-        if (! isset($this->properties[$name])) {
+        if (!isset($this->properties[$name])) {
             $this->properties[$name] = $value;
         } else {
             if (is_array($this->properties[$name])) {

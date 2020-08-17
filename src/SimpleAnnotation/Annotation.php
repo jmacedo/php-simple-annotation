@@ -10,7 +10,6 @@ use SimpleAnnotation\Exceptions\EmptyClassException;
  * Class Annotation.
  *
  * @package SimpleAnnotation
- * @todo Cache implementation
  */
 final class Annotation
 {

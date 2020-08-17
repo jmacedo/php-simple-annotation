@@ -46,10 +46,10 @@ trait AnnotationTrait
     /**
      * Cache handler setter.
      *
-     * @param CacheInterface $cache
+     * @param ?CacheInterface $cache
      * @return $this
      */
-    public function setCacheHandler(CacheInterface $cache = null)
+    public function setCacheHandler(?CacheInterface $cache = null)
     {
         $this->cache = $cache;
 

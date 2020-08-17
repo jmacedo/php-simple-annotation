@@ -20,7 +20,7 @@ final class AnnotationParser implements Parser
      */
     private string $tagsPattern = '/@([a-z]+[a-z0-9_]*)(.*)\s{1,}/i';
 
-	/**
+    /**
      * The regexp pattern to identify numbers, integer or double.
      * @var string
      */
@@ -32,7 +32,7 @@ final class AnnotationParser implements Parser
     /**
      * AnnotationParser constructor.
      */
-	public function __construct()
+    public function __construct()
     {
         $this->initializeAnnotationParsed();
     }
@@ -51,22 +51,22 @@ final class AnnotationParser implements Parser
      * @param string $docBlock
      * @return ParsedAnnotation
      */
-	public function parse(string $docBlock) : ParsedAnnotation
+    public function parse(string $docBlock): ParsedAnnotation
     {
         // Have to initialize every parse to clean the previous parsed values, to not "add" values that don't exist.
         $this->initializeAnnotationParsed();
 
         // Separate the annotations tags (position 1) and it's values (position 2)
-		$matches = [];
-		preg_match_all($this->tagsPattern, $docBlock, $matches);
+        $matches = [];
+        preg_match_all($this->tagsPattern, $docBlock, $matches);
 
-		// Iterate then and parse each one
-		foreach ($matches[1] as $key => $value) {
-			$this->annotationParsed->{$value} = $this->parseAnnotationValue(trim($matches[2][$key]));
-		}
-		
-		return $this->annotationParsed;
-	}
+        // Iterate then and parse each one
+        foreach ($matches[1] as $key => $value) {
+            $this->annotationParsed->{$value} = $this->parseAnnotationValue(trim($matches[2][$key]));
+        }
+
+        return $this->annotationParsed;
+    }
 
     /**
      * The method that effectively parse the annotation values.
@@ -74,30 +74,30 @@ final class AnnotationParser implements Parser
      * @param string $value
      * @return bool|string|double|array|object|null
      */
-	private function parseAnnotationValue(string $value = '')
+    private function parseAnnotationValue(string $value = '')
     {
         // The annotation just exists (true value)
         if (empty($value)) {
             return true;
         }
 
-		$firstLetter = $value[0];
-		$lastLetter = StringManipulator::getLastLetter($value);
-	
-		if ($firstLetter === '[' && $lastLetter === ']') { // ARRAY
-            $value = $this->parseArray($value);
-		} elseif ($firstLetter === '{' && $lastLetter === '}') { // JSON / OBJECT
-            $value = $this->parseJson($value);
-		} else {
-			if (preg_match($this->numberPattern, $value)) { // NUMERIC
-				$value = $this->parseNumeric($value);
-			} else { // BOOL, NULL and STRING
-				$value = $this->parseBoolNullAndString($value);
-			}
-		}
+        $firstLetter = $value[0];
+        $lastLetter = StringManipulator::getLastLetter($value);
 
-		return $value;
-	}
+        if ($firstLetter === '[' && $lastLetter === ']') { // ARRAY
+            $value = $this->parseArray($value);
+        } elseif ($firstLetter === '{' && $lastLetter === '}') { // JSON / OBJECT
+            $value = $this->parseJson($value);
+        } else {
+            if (preg_match($this->numberPattern, $value)) { // NUMERIC
+                $value = $this->parseNumeric($value);
+            } else { // BOOL, NULL and STRING
+                $value = $this->parseBoolNullAndString($value);
+            }
+        }
+
+        return $value;
+    }
 
     /**
      * Parse a string representation of an one dimensional array into an array.
@@ -105,13 +105,13 @@ final class AnnotationParser implements Parser
      * @param string $value
      * @return array
      */
-	private function parseArray(string $value) : array
+    private function parseArray(string $value): array
     {
         // Mount the array
         $value = explode(',', Sanitizer::removeFirstAndLastCharacters($value));
 
         // Sanitize the array values
-        $value = array_map(function($v) {
+        $value = array_map(function ($v) {
             $v = trim($v);
 
             if ($v[0] === '"' || $v[0] === "'") {
@@ -182,7 +182,7 @@ final class AnnotationParser implements Parser
      * @param string $value
      * @return string
      */
-    private function parseString(string $value) : string
+    private function parseString(string $value): string
     {
         $firstLetter = $value[0];
         $lastLetter = StringManipulator::getLastLetter($value);

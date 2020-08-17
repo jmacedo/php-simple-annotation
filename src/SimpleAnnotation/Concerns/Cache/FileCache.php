@@ -28,7 +28,7 @@ final class FileCache implements CacheInterface
         $this->path = $path;
 
         clearstatcache();
-        if (! file_exists($path)) {
+        if (!file_exists($path)) {
             touch($path);
         } else {
             $this->values = (array)json_decode(file_get_contents($path));
