@@ -3,7 +3,7 @@
 namespace SimpleAnnotation;
 
 use phpDocumentor\Reflection\Types\This;
-use SimpleAnnotation\Concerns\ParsedAnnotation;
+use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
 
 /**
  * A model class to manipulate the annotations parsed values.
@@ -11,7 +11,7 @@ use SimpleAnnotation\Concerns\ParsedAnnotation;
  *
  * @package SimpleAnnotation
  */
-final class AnnotationParsed implements ParsedAnnotation, \JsonSerializable
+final class AnnotationParsedInterface implements ParsedAnnotationInterface, \JsonSerializable
 {
     /** @var array */
     private array $properties = [];

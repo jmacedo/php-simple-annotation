@@ -5,8 +5,8 @@ namespace SimpleAnnotation;
 use ReflectionClass;
 use ReflectionException;
 use SimpleAnnotation\Concerns\CacheInterface;
-use SimpleAnnotation\Concerns\ParsedAnnotation;
-use SimpleAnnotation\Concerns\Parser;
+use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
+use SimpleAnnotation\Concerns\ParserInterface;
 
 /**
  * Trait AnnotationTrait
@@ -18,13 +18,13 @@ trait AnnotationTrait
     /** @var ReflectionClass */
     private ReflectionClass $reflectionClass;
 
-    /** @var Parser */
-    private Parser $annotationParser;
+    /** @var ParserInterface */
+    private ParserInterface $annotationParser;
 
-    /** @var ParsedAnnotation[] */
+    /** @var ParsedAnnotationInterface[] */
     private array $methodsAnnotations = [];
 
-    /** @var ParsedAnnotation[] */
+    /** @var ParsedAnnotationInterface[] */
     private array $propertiesAnnotations = [];
 
     /** @var CacheInterface */
@@ -33,10 +33,10 @@ trait AnnotationTrait
     /**
      * Annotation parser setter.
      *
-     * @param Parser $annotationParser
+     * @param ParserInterface $annotationParser
      * @return $this
      */
-    public function setAnnotationParser(Parser $annotationParser)
+    public function setAnnotationParser(ParserInterface $annotationParser)
     {
         $this->annotationParser = $annotationParser;
 
@@ -59,7 +59,7 @@ trait AnnotationTrait
     /**
      * Returns an array with the annotations of all properties of the class.
      *
-     * @return ParsedAnnotation[]
+     * @return ParsedAnnotationInterface[]
      */
     public final function getPropertiesAnnotations() : array
     {
@@ -80,7 +80,7 @@ trait AnnotationTrait
      * Returns the annotations of the property given by the $key parameter.
      *
      * @param string $key
-     * @return ParsedAnnotation
+     * @return ParsedAnnotationInterface
      * @throws ReflectionException
      */
     public final function getPropertyAnnotations(string $key)
@@ -102,7 +102,7 @@ trait AnnotationTrait
     /**
      * Returns an array with the annotations of all methods of the class.
      *
-     * @return ParsedAnnotation[]
+     * @return ParsedAnnotationInterface[]
      */
     public final function getMethodsAnnotations() : array
     {
@@ -123,7 +123,7 @@ trait AnnotationTrait
      * Returns the annotations of the method given by the $key parameter.
      *
      * @param string $key
-     * @return ParsedAnnotation
+     * @return ParsedAnnotationInterface
      * @throws ReflectionException
      */
     public final function getMethodAnnotations(string $key)
@@ -145,7 +145,7 @@ trait AnnotationTrait
     /**
      * Return the annotations of the given class.
      *
-     * @return ParsedAnnotation
+     * @return ParsedAnnotationInterface
      */
     public final function getClassAnnotations()
     {

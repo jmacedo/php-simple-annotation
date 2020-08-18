@@ -3,21 +3,21 @@
 namespace Tests\SimpleAnnotation;
 
 use PHPUnit\Framework\TestCase;
-use SimpleAnnotation\AnnotationParser;
-use SimpleAnnotation\Concerns\ParsedAnnotation;
-use SimpleAnnotation\Concerns\Parser;
+use SimpleAnnotation\AnnotationParserInterface;
+use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
+use SimpleAnnotation\Concerns\ParserInterface;
 
 class AnnotationParserTest extends TestCase
 {
-    /** @var AnnotationParser */
-    private AnnotationParser $annotationParser;
+    /** @var AnnotationParserInterface */
+    private AnnotationParserInterface $annotationParser;
 
-    /** @var ParsedAnnotation */
-    private ParsedAnnotation $parsedAnnotation;
+    /** @var ParsedAnnotationInterface */
+    private ParsedAnnotationInterface $parsedAnnotation;
 
     public function setUp(): void
     {
-        $this->annotationParser = new AnnotationParser();
+        $this->annotationParser = new AnnotationParserInterface();
 
         $exampleAnnotation = '/**
                                     * Class MyAnnotatedClass
@@ -35,7 +35,7 @@ class AnnotationParserTest extends TestCase
 
     public function testParsedAnnotationIsInstanceOfParsedAnnotationInterface()
     {
-        $this->assertInstanceOf(ParsedAnnotation::class, $this->parsedAnnotation);
+        $this->assertInstanceOf(ParsedAnnotationInterface::class, $this->parsedAnnotation);
     }
 
     public function testParseStringAnnotationWithSuccess()
@@ -78,6 +78,6 @@ class AnnotationParserTest extends TestCase
 
     public function testAnnotationParserImplementsParserInterface()
     {
-        $this->assertInstanceOf(Parser::class, $this->annotationParser);
+        $this->assertInstanceOf(ParserInterface::class, $this->annotationParser);
     }
 }

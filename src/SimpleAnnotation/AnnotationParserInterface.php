@@ -2,8 +2,8 @@
 
 namespace SimpleAnnotation;
 
-use SimpleAnnotation\Concerns\Parser;
-use SimpleAnnotation\Concerns\ParsedAnnotation;
+use SimpleAnnotation\Concerns\ParserInterface;
+use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
 use String\Sanitizer;
 use String\StringManipulator;
 
@@ -12,7 +12,7 @@ use String\StringManipulator;
  *
  * @package SimpleAnnotation
  */
-final class AnnotationParser implements Parser
+final class AnnotationParserInterface implements ParserInterface
 {
     /**
      * The regexp pattern to split the tags from values in annotations.
@@ -26,11 +26,11 @@ final class AnnotationParser implements Parser
      */
     private string $numberPattern = '/^[-]?[0-9]+([\.][0-9]+)?$/';
 
-    /** @var ParsedAnnotation */
-    private ParsedAnnotation $annotationParsed;
+    /** @var ParsedAnnotationInterface */
+    private ParsedAnnotationInterface $annotationParsed;
 
     /**
-     * AnnotationParser constructor.
+     * AnnotationParserInterface constructor.
      */
     public function __construct()
     {
@@ -38,20 +38,20 @@ final class AnnotationParser implements Parser
     }
 
     /**
-     * Initializes the AnnotationParsed object.
+     * Initializes the AnnotationParsedInterface object.
      */
     private function initializeAnnotationParsed()
     {
-        $this->annotationParsed = new AnnotationParsed();
+        $this->annotationParsed = new AnnotationParsedInterface();
     }
 
     /**
      * The method that coordinates the annotation parsing.
      *
      * @param string $docBlock
-     * @return ParsedAnnotation
+     * @return ParsedAnnotationInterface
      */
-    public function parse(string $docBlock): ParsedAnnotation
+    public function parse(string $docBlock): ParsedAnnotationInterface
     {
         // Have to initialize every parse to clean the previous parsed values, to not "add" values that don't exist.
         $this->initializeAnnotationParsed();

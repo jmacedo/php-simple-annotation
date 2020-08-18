@@ -8,7 +8,7 @@ namespace SimpleAnnotation\Concerns;
  *
  * @package SimpleAnnotation\Concerns
  */
-interface ParsedAnnotation
+interface ParsedAnnotationInterface
 {
     /**
      * Magic method.

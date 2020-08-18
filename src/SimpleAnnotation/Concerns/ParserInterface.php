@@ -7,13 +7,13 @@ namespace SimpleAnnotation\Concerns;
  *
  * @package SimpleAnnotation\Concerns
  */
-interface Parser
+interface ParserInterface
 {
     /**
      * The method that orchestrates the parsing of the annotations.
      *
      * @param string $docBlock
-     * @return ParsedAnnotation
+     * @return ParsedAnnotationInterface
      */
-    public function parse(string $docBlock) : ParsedAnnotation;
+    public function parse(string $docBlock) : ParsedAnnotationInterface;
 }

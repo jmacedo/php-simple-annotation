@@ -4,9 +4,9 @@ namespace Tests\SimpleAnnotation;
 
 use PHPUnit\Framework\TestCase;
 use SimpleAnnotation\Annotation;
-use SimpleAnnotation\AnnotationParser;
+use SimpleAnnotation\AnnotationParserInterface;
 use SimpleAnnotation\Concerns\Cache\FileCache;
-use SimpleAnnotation\Concerns\ParsedAnnotation;
+use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
 use Tests\TestSources\AnnotatedClass;
 use Tests\TestSources\EmptyClass;
 use Tests\TestSources\NotAnnotatedClass;
@@ -55,7 +55,7 @@ class AnnotationTraitTest extends TestCase
 
     public function testSetAnnotationParserFluentInterface()
     {
-        $this->assertInstanceOf(Annotation::class, $this->emptyClass->setAnnotationParser(new AnnotationParser()));
+        $this->assertInstanceOf(Annotation::class, $this->emptyClass->setAnnotationParser(new AnnotationParserInterface()));
     }
 
     public function testSetCacheHandlerFluentInterface()
@@ -75,7 +75,7 @@ class AnnotationTraitTest extends TestCase
     public function testGetPropertyAnnotationsInstanceOfParsedAnnotation()
     {
         $propertyOneAnnotation = $this->annotatedClass->getPropertyAnnotations('propertyOne');
-        $this->assertInstanceOf(ParsedAnnotation::class, $propertyOneAnnotation);
+        $this->assertInstanceOf(ParsedAnnotationInterface::class, $propertyOneAnnotation);
     }
 
     public function testGetPropertyAnnotationsWithUnexistentPropertyException()
@@ -109,7 +109,7 @@ class AnnotationTraitTest extends TestCase
         $propAnnotations = $this->annotatedClass->getPropertiesAnnotations();
 
         foreach ($propAnnotations as $propAnnotation) {
-            $this->assertInstanceOf(ParsedAnnotation::class, $propAnnotation);
+            $this->assertInstanceOf(ParsedAnnotationInterface::class, $propAnnotation);
         }
     }
 
@@ -146,7 +146,7 @@ class AnnotationTraitTest extends TestCase
     public function testGetMethodAnnotationsInstanceOfParsedAnnotation()
     {
         $methodOneAnnotation = $this->annotatedClass->getMethodAnnotations('methodOne');
-        $this->assertInstanceOf(ParsedAnnotation::class, $methodOneAnnotation);
+        $this->assertInstanceOf(ParsedAnnotationInterface::class, $methodOneAnnotation);
     }
 
     public function testGetMethodAnnotationsWithUnexistentMethodException()
@@ -180,7 +180,7 @@ class AnnotationTraitTest extends TestCase
         $metAnnotations = $this->annotatedClass->getMethodsAnnotations();
 
         foreach ($metAnnotations as $metAnnotation) {
-            $this->assertInstanceOf(ParsedAnnotation::class, $metAnnotation);
+            $this->assertInstanceOf(ParsedAnnotationInterface::class, $metAnnotation);
         }
     }
 
@@ -216,7 +216,7 @@ class AnnotationTraitTest extends TestCase
     public function testGetClassAnnotationIsInstanceOfParsedAnnotation()
     {
         $classAnnotations = $this->annotatedClass->getClassAnnotations();
-        $this->assertInstanceOf(ParsedAnnotation::class, $classAnnotations);
+        $this->assertInstanceOf(ParsedAnnotationInterface::class, $classAnnotations);
     }
 
     public function testGetClassAnnotationWithNoAnnotations()
