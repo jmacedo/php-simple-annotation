@@ -12,7 +12,7 @@ use String\StringManipulator;
  *
  * @package SimpleAnnotation
  */
-final class AnnotationParserInterface implements ParserInterface
+final class AnnotationParser implements ParserInterface
 {
     /**
      * The regexp pattern to split the tags from values in annotations.
@@ -30,7 +30,7 @@ final class AnnotationParserInterface implements ParserInterface
     private ParsedAnnotationInterface $annotationParsed;
 
     /**
-     * AnnotationParserInterface constructor.
+     * AnnotationParser constructor.
      */
     public function __construct()
     {
@@ -38,11 +38,11 @@ final class AnnotationParserInterface implements ParserInterface
     }
 
     /**
-     * Initializes the AnnotationParsedInterface object.
+     * Initializes the AnnotationParsed object.
      */
     private function initializeAnnotationParsed()
     {
-        $this->annotationParsed = new AnnotationParsedInterface();
+        $this->annotationParsed = new AnnotationParsed();
     }
 
     /**

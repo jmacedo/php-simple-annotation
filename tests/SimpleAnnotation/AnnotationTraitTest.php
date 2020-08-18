@@ -4,7 +4,7 @@ namespace Tests\SimpleAnnotation;
 
 use PHPUnit\Framework\TestCase;
 use SimpleAnnotation\Annotation;
-use SimpleAnnotation\AnnotationParserInterface;
+use SimpleAnnotation\AnnotationParser;
 use SimpleAnnotation\Concerns\Cache\FileCache;
 use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
 use Tests\TestSources\AnnotatedClass;
@@ -55,7 +55,7 @@ class AnnotationTraitTest extends TestCase
 
     public function testSetAnnotationParserFluentInterface()
     {
-        $this->assertInstanceOf(Annotation::class, $this->emptyClass->setAnnotationParser(new AnnotationParserInterface()));
+        $this->assertInstanceOf(Annotation::class, $this->emptyClass->setAnnotationParser(new AnnotationParser()));
     }
 
     public function testSetCacheHandlerFluentInterface()

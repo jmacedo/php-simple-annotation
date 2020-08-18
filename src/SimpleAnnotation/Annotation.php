@@ -36,7 +36,7 @@ final class Annotation
         }
 
         $this->reflectionClass = new \ReflectionClass($declaredClass);
-        $this->annotationParser = new AnnotationParserInterface();
+        $this->annotationParser = new AnnotationParser();
         $this->cache = $cache;
     }
 }

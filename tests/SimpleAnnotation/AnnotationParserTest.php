@@ -3,21 +3,21 @@
 namespace Tests\SimpleAnnotation;
 
 use PHPUnit\Framework\TestCase;
-use SimpleAnnotation\AnnotationParserInterface;
+use SimpleAnnotation\AnnotationParser;
 use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
 use SimpleAnnotation\Concerns\ParserInterface;
 
 class AnnotationParserTest extends TestCase
 {
-    /** @var AnnotationParserInterface */
-    private AnnotationParserInterface $annotationParser;
+    /** @var AnnotationParser */
+    private AnnotationParser $annotationParser;
 
     /** @var ParsedAnnotationInterface */
     private ParsedAnnotationInterface $parsedAnnotation;
 
     public function setUp(): void
     {
-        $this->annotationParser = new AnnotationParserInterface();
+        $this->annotationParser = new AnnotationParser();
 
         $exampleAnnotation = '/**
                                     * Class MyAnnotatedClass

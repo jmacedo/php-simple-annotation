@@ -11,7 +11,7 @@ use SimpleAnnotation\Concerns\ParsedAnnotationInterface;
  *
  * @package SimpleAnnotation
  */
-final class AnnotationParsedInterface implements ParsedAnnotationInterface, \JsonSerializable
+final class AnnotationParsed implements ParsedAnnotationInterface, \JsonSerializable
 {
     /** @var array */
     private array $properties = [];
